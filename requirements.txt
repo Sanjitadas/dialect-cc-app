@@ -13,4 +13,7 @@ edge-tts
 websockets
 streamlit
 requests
+fastapi
+uvicorn
+websockets
 

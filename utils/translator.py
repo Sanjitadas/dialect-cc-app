@@ -1,46 +1,38 @@
-# utils/translator.py
+# ✅ utils/translator.py — AI-enhanced translation via Cohere
 
 import os
-import requests
+import cohere
+from dotenv import load_dotenv
 
-def ai_translate(text: str, source_lang: str, target_lang: str) -> str:
-    """
-    Translates given text from source_lang to target_lang using a context-aware AI.
-    Uses local Hugging Face, Cohere, or other API integration as needed.
-    """
+load_dotenv()
+
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+co = cohere.Client(COHERE_API_KEY)
+
+
+async def smart_translate(text: str, source_lang: str = "en", target_lang: str = "en") -> str:
     if source_lang == target_lang or not text.strip():
         return text
 
     try:
-        # Template prompt for AI-based context-aware translation
         prompt = (
-            f"Translate this sentence from {source_lang} to {target_lang}. "
-            f"Respond only with the final translated sentence:\n\n{text}"
+            f"You are a professional translator. Your task is to translate this text from {source_lang} to {target_lang}. "
+            f"Ensure the translation is fluent, grammatically correct, and contextually accurate. Only output the translated text.\n\n"
+            f"Text: {text}"
         )
 
-        # Example using OpenAI-compatible local endpoint
-        endpoint = os.getenv("AI_TRANSLATION_ENDPOINT", "http://localhost:11434/v1/chat/completions")
+        response = co.chat(
+            model="command-r-plus",
+            message=prompt,
+            temperature=0.4
+        )
 
-        headers = {"Content-Type": "application/json"}
-        payload = {
-            "model": "llama3",  # or your configured Ollama model
-            "messages": [
-                {"role": "system", "content": "You are a smart translator."},
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.3
-        }
-
-        response = requests.post(endpoint, headers=headers, json=payload, timeout=20)
-        response.raise_for_status()
-        data = response.json()
-
-        result = data['choices'][0]['message']['content']
-        return result.strip()
-
+        return response.text.strip()
     except Exception as e:
-        print(f"❌ Translation failed: {e}")
+        print(f"❌ Translation error: {e}")
         return text
+
+
 
 
 
