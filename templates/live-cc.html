@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Subtitles Overlay</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: rgba(0, 0, 0, 0.2);
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+    .subtitle-box {
+      position: fixed;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 16px 24px;
+      border-radius: 20px;
+      font-size: 24px;
+      max-width: 90vw;
+      box-shadow: 0 0 10px #000;
+      transition: all 0.3s ease;
+    }
+    .controls {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00c853;
+      color: white;
+      cursor: pointer;
+    }
+    button.stop {
+      background-color: #d50000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="controls">
+  <button id="startBtn">🎙️ Start</button>
+  <button id="stopBtn" class="stop">⛔ Stop</button>
+</div>
+
+<div class="subtitle-box" id="subtitle">Waiting for input...</div>
+
+<script>
+  let intervalId = null;
+
+  const subtitleBox = document.getElementById('subtitle');
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+
+  const fetchTranslation = async () => {
+    try {
+      const response = await fetch('/live');
+      const data = await response.json();
+      if (data.success && data.translated_text) {
+        subtitleBox.textContent = data.translated_text;
+      }
+    } catch (err) {
+      subtitleBox.textContent = 'WebSocket Error or API offline';
+    }
+  };
+
+  startBtn.addEventListener('click', () => {
+    subtitleBox.textContent = '🎙️ Listening...';
+    intervalId = setInterval(fetchTranslation, 5000); // every 5 sec
+  });
+
+  stopBtn.addEventListener('click', () => {
+    clearInterval(intervalId);
+    subtitleBox.textContent = '🛑 Subtitles stopped';
+  });
+
+  // Auto-start
+  startBtn.click();
+</script>
+
+</body>
+</html>
+
+
+
+
+

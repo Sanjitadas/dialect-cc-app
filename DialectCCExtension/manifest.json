@@ -1,0 +1,43 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.11",
+  "version": "1.0.0",
+  "id": "f6e6bda7-fb60-42c1-a08e-1234567890ab",
+  "packageName": "com.dialect.cc",
+  "developer": {
+  "name": "DialectCC",
+  "websiteUrl": "https://experimental-kg-nottingham-enzyme.trycloudflare.com",
+  "privacyUrl": "https://experimental-kg-nottingham-enzyme.trycloudflare.com/privacy",
+  "termsOfUseUrl": "https://experimental-kg-nottingham-enzyme.trycloudflare.com/terms"
+},
+  "name": {
+    "short": "Dialect CC",
+    "full": "Dialect Closed Caption Translator"
+  },
+  "description": {
+    "short": "Live translated subtitles for meetings",
+    "full": "See real-time, grammar-corrected and AI-translated subtitles in your preferred language during meetings."
+  },
+"icons": {
+  "color": "https://github.com/Sanjitadas/DialectCCIcon/blob/main/icon128.png?raw=true",
+  "outline": "https://github.com/Sanjitadas/DialectCCIcon/blob/main/iconOutline.png?raw=true"
+},
+  "accentColor": "#5865F2",
+  "staticTabs": [
+    {
+      "entityId": "dialectcc-tab",
+      "name": "Live Subtitles",
+      "contentUrl": "https://dialect-cc.streamlit.app",
+      "scopes": ["personal"]
+    }
+  ],
+  "permissions": ["identity"],
+  "validDomains": ["dialect-cc.streamlit.app"]
+
+}
+
+
+
+
+
+

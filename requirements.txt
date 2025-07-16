@@ -1,0 +1,16 @@
+SpeechRecognition==3.10.1
+pyaudio==0.2.14
+pyttsx3==2.90
+langdetect==1.0.9
+tk
+openai
+requests
+transformers
+sentencepiece
+pillow
+whisper
+edge-tts
+websockets
+streamlit
+requests
+

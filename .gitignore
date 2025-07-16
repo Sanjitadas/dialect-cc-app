@@ -1,0 +1,12 @@
+.venv/
+.env/
+__pycache__/
+*.pyc
+# Ignore build and distribution artifacts
+build/
+dist/
+*.spec
+*.toc
+*.zip
+*.ico
+static/
